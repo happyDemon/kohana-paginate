@@ -25,40 +25,48 @@ class Kohana_Paginate_Database extends Paginate
 	 */
 	protected $_object_search_clone;
 
-	/**
-	 * Initialize
-	 * 
-	 * @access	public
-	 * @param	object
-	 * @return	void
-	 */	
-	public function __construct($object)
+    /**
+     * Initialize
+     *
+     * @access    public
+     * @param object $object
+     * @param mixed $config
+     * @param \Kohana_Request $request
+     * @internal param $object
+     * @internal param $array
+     * @return \Kohana_Paginate_Database
+     */
+	public function __construct($object, $config, Kohana_Request $request = NULL)
 	{
-		parent::__construct($object);
+		parent::__construct($object, $config, $request);
 		
 		$this->_object_clone = clone $this->_object;
 		$this->_object_search_clone = clone $this->_object;
-	}	
-	
-	/**
-	 * Apply limit
-	 * 
-	 * @access	protected
-	 * @param	int
-	 * @return	void
-	 */
+	}
+
+    /**
+     * Apply limit
+     *
+     * @access    protected
+     * @param $start
+     * @param $length
+     * @internal param $int
+     * @return    void
+     */
 	protected function _limit($start, $length)
 	{
 		$this->_object->offset($start)->limit($length);
 	}
-	
-	/**
-	 * Apply sort
-	 * 
-	 * @access	protected
-	 * @param	string
-	 * @return	void
-	 */
+
+    /**
+     * Apply sort
+     *
+     * @access    protected
+     * @param $column
+     * @param $direction
+     * @internal param $string
+     * @return    void
+     */
 	protected function _sort($column, $direction)
 	{
 		$this->_object->order_by($column, mysql_real_escape_string($direction));

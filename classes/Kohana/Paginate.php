@@ -160,7 +160,7 @@ abstract class Kohana_Paginate
         } else if (is_a($config, 'Kohana_Config_Group')) {
             $this->_config = $config->as_array();
         } else if ($config != false) {
-            $this->_config = Kohana::$config->load($config)->as_array();
+            $this->_config = Kohana::$config->load($config);
         }
     }
 
@@ -174,7 +174,7 @@ abstract class Kohana_Paginate
         if (is_array($this->_config)) {
             switch ($this->_config['current_page']['source']) {
                 case 'query_string':
-                    return $this->_request->query($this->_config['current_page']['key'], 1);
+                    return Arr::get($_GET, $this->_config['current_page']['key'], 1);
                     break;
                 case 'route_param':
                     return $this->_request->param($this->_config['current_page']['key'], 1);
@@ -271,7 +271,7 @@ abstract class Kohana_Paginate
      * Automatically limit the results based on the config.
      * @return $this
      */
-    protected function auto_limit()
+    protected function _auto_limit()
     {
         return $this->limit(
             ($this->current_page() - 1) * $this->_config['items_per_page'],

@@ -44,7 +44,7 @@ class Kohana_Paginate_Render
      */
     public function pages()
     {
-        if(($this->total_pages() == 0 || $this->pages() == null) && $this->config['auto_hide'] == TRUE)
+        if(($this->total_pages() == 0 || $this->total_pages() == null) && $this->config['auto_hide'] == TRUE)
             return '';
 
         $pages = array();
@@ -137,6 +137,9 @@ class Kohana_Paginate_Render
      */
     public function pagination($template=null)
     {
+        if($this->config['auto_hide'] == TRUE && $this->paginator->count_total() <= $this->config['items_per_page'])
+            return '';
+
         if($template == null)
         {
             $template = $this->config['view'];
@@ -146,7 +149,6 @@ class Kohana_Paginate_Render
             'pages' => $this->pages(),
             'renderer' => $this
         );
-
         if(isset($this->config['tpl']))
         {
             $data['config'] = $this->config['tpl'];

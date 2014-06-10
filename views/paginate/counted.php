@@ -4,15 +4,15 @@
 */
 
 // Number of page links in the begin and end of whole range
-$count_out = ( ! empty($config['count_out'])) ? (int) $config['count_out'] : 1;
+$count_out = ( ! empty($config['count_out'])) ? (int) $config['count_out'] : 4;
 // Number of page links on each side of current page
-$count_in = ( ! empty($config['count_in'])) ? (int) $config['count_in'] : 5;
+$count_in = ( ! empty($config['count_in'])) ? (int) $config['count_in'] : 4;
 
 // Previous page
-$previous_page = ($renderer->curent_page() == 1) ? $renderer->curent_page() : $renderer->curent_page()-1;
+$previous_page = ($renderer->current_page() == 1) ? $renderer->current_page() : $renderer->current_page()-1;
 
 // Next page
-$next_page = ($renderer->curent_page() == $renderer->total_pages()) ? $renderer->curent_page() : $renderer->curent_page()+1;
+$next_page = ($renderer->current_page() == $renderer->total_pages()) ? $renderer->current_page() : $renderer->current_page()+1;
 
 // Beginning group of pages: $n1...$n2
 $n1 = 1;
@@ -23,8 +23,8 @@ $n7 = max(1, $renderer->total_pages() - $count_out + 1);
 $n8 = $renderer->total_pages();
 
 // Middle group of pages: $n4...$n5
-$n4 = max($n2 + 1, $renderer->curent_page() - $count_in);
-$n5 = min($n7 - 1, $renderer->curent_page() + $count_in);
+$n4 = max($n2 + 1, $renderer->current_page() - $count_in);
+$n5 = min($n7 - 1, $renderer->current_page() + $count_in);
 $use_middle = ($n5 >= $n4);
 
 // Point $n3 between $n2 and $n4
@@ -64,7 +64,7 @@ for ($i = $n7; $i <= $n8; $i++)
 <div class="text-center">
     <ul class="pagination">
 
-        <?php if ($previous_page != $renderer->curent_page()): ?>
+        <?php if ($previous_page != $renderer->current_page()): ?>
             <li><a href="<?php echo HTML::chars($renderer->parse_url($previous_page)) ?>">&laquo;</a></li>
         <?php else: ?>
             <li class="active text-muted"><a href="<?php echo HTML::chars($renderer->parse_url($previous_page)) ?>">&laquo;</a></li>
@@ -72,7 +72,7 @@ for ($i = $n7; $i <= $n8; $i++)
 
         <?php foreach ($links as $number => $content): ?>
 
-            <?php if ($number === $renderer->curent_page()): ?>
+            <?php if ($number === $renderer->current_page()): ?>
                 <li class="active"><a href="<?php echo HTML::chars($renderer->parse_url($number)) ?>"><?php echo $content ?></a></li>
             <?php else: ?>
                 <li><a href="<?php echo HTML::chars($renderer->parse_url($number)) ?>"><?php echo $content ?></a></li>
@@ -80,7 +80,7 @@ for ($i = $n7; $i <= $n8; $i++)
 
         <?php endforeach ?>
 
-        <?php if ($next_page != $renderer->curent_page()): ?>
+        <?php if ($next_page != $renderer->current_page()): ?>
             <li><a href="<?php echo HTML::chars($renderer->parse_url($next_page)) ?>" rel="next">&raquo;</a></li>
         <?php else: ?>
             <li class="active text-muted"><a href="<?php echo HTML::chars($renderer->parse_url($next_page)) ?>" rel="next">&raquo;</a></li>
